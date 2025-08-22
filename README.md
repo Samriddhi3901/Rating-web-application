@@ -6,21 +6,6 @@ A comprehensive full-stack web application that allows users to submit ratings f
 
 This Rating Web Application is built as part of a FullStack Intern Coding Challenge. It provides a platform where users can register, log in, and rate stores based on their experiences. The application features three distinct user roles with specific functionalities tailored to each role's needs.
 
-## 📋 Table of Contents
-
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Architecture](#architecture)
-- [User Roles & Functionalities](#user-roles--functionalities)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [API Documentation](#api-documentation)
-- [Database Schema](#database-schema)
-- [Form Validations](#form-validations)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## ✨ Features
 
 - **Multi-role Authentication System**: Support for System Administrator, Normal User, and Store Owner roles
@@ -45,22 +30,21 @@ This Rating Web Application is built as part of a FullStack Intern Coding Challe
 - **Framework**: ReactJS
 - **State Management**: Context API/Redux
 - **Routing**: React Router
-- **UI Components**: Material-UI/Bootstrap/Tailwind CSS
+- **UI Components**: Bootstrap
 - **HTTP Client**: Axios
 
 ### Development Tools
 - **Version Control**: Git
 - **Package Manager**: npm/yarn
 - **Code Formatting**: Prettier
-- **Linting**: ESLint
 
 ## 🏗 Architecture
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Frontend      │    │   Backend       │    │   Database      │
-│   (React.js)    │◄──►│   (Express.js)  │◄──►│ (PostgreSQL/    │
-│                 │    │                 │    │  MySQL)         │
+│   (React.js)    │◄──►│   (Express.js)  │◄──►│(PostgreSQL/     │
+│                 │    │                 │    │  NeonDb/MySQL)  │
 │ - Components    │    │ - Routes        │    │                 │
 │ - State Mgmt    │    │ - Controllers   │    │ - Users         │
 │ - Authentication│    │ - Middleware    │    │ - Stores        │
@@ -271,57 +255,6 @@ GET /api/dashboard/admin      # Admin dashboard data
 GET /api/dashboard/store/:id  # Store owner dashboard
 ```
 
-## 🗄 Database Schema
-
-### Users Table
-```sql
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(60) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    address TEXT,
-    role ENUM('admin', 'user', 'store_owner') DEFAULT 'user',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-```
-
-### Stores Table
-```sql
-CREATE TABLE stores (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    address TEXT NOT NULL,
-    owner_id INTEGER REFERENCES users(id),
-    average_rating DECIMAL(2,1) DEFAULT 0.0,
-    total_ratings INTEGER DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-```
-
-### Ratings Table
-```sql
-CREATE TABLE ratings (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
-    store_id INTEGER REFERENCES stores(id),
-    rating INTEGER CHECK (rating >= 1 AND rating <= 5),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    UNIQUE(user_id, store_id)
-);
-```
-
-### Database Relationships
-```
-Users (1) ────── (Many) Ratings
-Stores (1) ────── (Many) Ratings
-Users (1) ────── (Many) Stores (as owner)
-```
-
 ## ✅ Form Validations
 
 ### User Registration/Profile
@@ -401,33 +334,6 @@ Rating-web-application/
 ├── README.md
 └── LICENSE
 ```
-
-## 🧪 Testing
-
-### Backend Testing
-```bash
-# Run all tests
-npm test
-
-# Run tests with coverage
-npm run test:coverage
-
-# Run specific test suite
-npm test -- --grep "Auth"
-```
-
-### Frontend Testing
-```bash
-# Run component tests
-npm test
-
-# Run tests in watch mode
-npm test -- --watch
-
-# Generate coverage report
-npm test -- --coverage
-```
-
 ## 🚀 Deployment
 
 ### Production Build
@@ -477,43 +383,5 @@ npm run build
 - **Social Features**: User profiles and social interactions
 - **API Versioning**: Implement API versioning for future updates
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Development Guidelines
-- Follow existing code style and conventions
-- Write comprehensive tests for new features
-- Update documentation as needed
-- Ensure all tests pass before submitting PR
-- Use meaningful commit messages
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👨‍💻 Author
-
-**Samriddhi**
-- GitHub: [@Samriddhi3901](https://github.com/Samriddhi3901)
-
-## 🙏 Acknowledgments
-
-- Thanks to all contributors who helped with this project
-- Inspiration from various rating and review platforms
-- Open source community for the amazing tools and libraries
-
-## 📞 Support
-
-If you have any questions or need help with the setup, please:
-1. Check the [Issues](https://github.com/Samriddhi3901/Rating-web-application/issues) section
-2. Create a new issue if your problem isn't already addressed
-3. Reach out to the maintainer
-
----
 
 **Happy Coding! 🚀**
